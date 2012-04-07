@@ -1,4 +1,4 @@
-package fr.mildlyusefulsoftware.cutekitty.service;
+package fr.mildlyusefulsoftware.imageviewer.service;
 
 import java.io.BufferedOutputStream;
 import java.io.File;

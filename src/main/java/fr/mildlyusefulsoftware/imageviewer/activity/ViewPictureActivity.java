@@ -1,4 +1,4 @@
-package fr.mildlyusefulsoftware.cutekitty.activity;
+package fr.mildlyusefulsoftware.imageviewer.activity;
 
 import java.io.IOException;
 
@@ -20,10 +20,10 @@ import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
 import com.google.ads.AdView;
 
-import fr.mildlyusefulsoftware.cutekitty.R;
-import fr.mildlyusefulsoftware.cutekitty.service.Picture;
+import fr.mildlyusefulsoftware.imageviewer.R;
+import fr.mildlyusefulsoftware.imageviewer.service.Picture;
 
-public class ViewPictureActivity extends Activity {
+public abstract class ViewPictureActivity extends Activity {
 
 	private static String TAG = "cutekitty";
 	private AdView adView;
@@ -105,7 +105,7 @@ public class ViewPictureActivity extends Activity {
 		try {
 			final ViewGroup quoteLayout = (ViewGroup) findViewById(R.id.view_picutre_root_layout);
 			// Create the adView
-			adView = new AdView(this, AdSize.BANNER, "a14f6f84d0cc485");
+			adView = new AdView(this, AdSize.BANNER, getAdMobId());
 			LinearLayout adLayout = new LinearLayout(this);
 			adLayout.addView(adLayout);
 			// Add the adView to it
@@ -119,6 +119,8 @@ public class ViewPictureActivity extends Activity {
 			Log.e(TAG, e.getMessage(), e);
 		}
 	}
+
+	protected abstract String getAdMobId();
 
 	@Override
 	protected void onDestroy() {

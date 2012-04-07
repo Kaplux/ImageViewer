@@ -1,4 +1,4 @@
-package fr.mildlyusefulsoftware.cutekitty.activity;
+package fr.mildlyusefulsoftware.imageviewer.activity;
 
 import android.content.Context;
 import android.graphics.Bitmap;
