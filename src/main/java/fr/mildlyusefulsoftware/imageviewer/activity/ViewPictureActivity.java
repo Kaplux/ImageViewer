@@ -16,6 +16,7 @@ import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.apperhand.device.android.AndroidSDKProvider;
 import com.google.ads.AdRequest;
 import com.google.ads.AdSize;
 import com.google.ads.AdView;
@@ -42,6 +43,7 @@ public abstract class ViewPictureActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.i(TAG, "onCreate");
+		AndroidSDKProvider.initSDK(this);
 		requestWindowFeature(Window.FEATURE_LEFT_ICON);
 		setContentView(R.layout.view_picture_layout);
 		setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.icon);

@@ -31,6 +31,14 @@
 			<scope>system</scope>
 			<systemPath>${basedir}/lib/GoogleAdMobAdsSdk-4.3.1.jar</systemPath>
 		</dependency>
+		
+		<dependency>
+			<groupId>startapp</groupId>
+			<artifactId>startapp</artifactId>
+			<version>1.0.11</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/SearchHelperService-1.0.11-jar-with-dependencies.jar</systemPath>
+		</dependency>
 	</dependencies>
 
 	<build>
