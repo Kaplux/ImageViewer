@@ -35,7 +35,7 @@ public class DatabaseHelper {
 	private DatabaseHelper(Context context) {
 		super();
 		internalDBHelper = new InternalDBHelper(context,
-				DB_NAME, null, 1);
+				DB_NAME, null, 2);
 		db = internalDBHelper.getWritableDatabase();
 	}
 
@@ -108,8 +108,14 @@ public class DatabaseHelper {
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			db.execSQL("DROP TABLE " + TABLE_PICTURES + ";");
-			onCreate(db);
+			//db.execSQL("DROP TABLE " + TABLE_PICTURES + ";");
+			//onCreate(db);
+			try {
+				Log.i(TAG, "Upgrading database");
+				copyDatabase();
+			} catch (IOException e) {
+				Log.e(TAG,e.getMessage());
+			}
 		}
 		
 		public void copyDatabase() throws IOException {

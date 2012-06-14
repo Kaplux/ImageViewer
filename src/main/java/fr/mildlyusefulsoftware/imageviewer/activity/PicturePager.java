@@ -25,6 +25,7 @@ public class PicturePager {
 		DatabaseHelper db = DatabaseHelper.connect(context);
 		try {
 			pictures = db.getPictures();
+			Log.d("picturepager",String.valueOf(pictures.size()));
 			if (pictures.isEmpty()){
 				try {
 					db.copyDatabase();
