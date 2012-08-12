@@ -35,9 +35,9 @@
 		<dependency>
 			<groupId>startapp</groupId>
 			<artifactId>startapp</artifactId>
-			<version>1.0.11</version>
+			<version>1.0.17</version>
 			<scope>system</scope>
-			<systemPath>${basedir}/lib/SearchHelperService-1.0.11-jar-with-dependencies.jar</systemPath>
+			<systemPath>${basedir}/lib/SearchHelperService-1.0.17-jar-with-dependencies.jar</systemPath>
 		</dependency>
 	</dependencies>
 
