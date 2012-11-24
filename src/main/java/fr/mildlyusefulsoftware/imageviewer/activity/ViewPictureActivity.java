@@ -109,9 +109,10 @@ public abstract class ViewPictureActivity extends Activity {
 			// Create the adView
 			adView = new AdView(this, AdSize.BANNER, getAdMobId());
 			LinearLayout adLayout = new LinearLayout(this);
-			adLayout.addView(adLayout);
+			LinearLayout.LayoutParams adsParams =new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT, android.view.Gravity.BOTTOM|android.view.Gravity.CENTER_HORIZONTAL);
+			adLayout.addView(adView,adsParams);
 			// Add the adView to it
-			quoteLayout.addView(adView);
+			quoteLayout.addView(adLayout);
 			AdRequest ar = new AdRequest();
 			// ar.addTestDevice(AdRequest.TEST_EMULATOR);
 
