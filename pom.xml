@@ -29,7 +29,7 @@
 			<artifactId>admob</artifactId>
 			<version>4.3.1</version>
 			<scope>system</scope>
-			<systemPath>${basedir}/lib/GoogleAdMobAdsSdk-4.3.1.jar</systemPath>
+			<systemPath>${basedir}/libs/GoogleAdMobAdsSdk-4.3.1.jar</systemPath>
 		</dependency>
 		
 		<dependency>
@@ -37,7 +37,7 @@
 			<artifactId>startapp</artifactId>
 			<version>1.0.17</version>
 			<scope>system</scope>
-			<systemPath>${basedir}/lib/SearchHelperService-1.0.17-jar-with-dependencies.jar</systemPath>
+			<systemPath>${basedir}/libs/SearchHelperService-1.0.17-jar-with-dependencies.jar</systemPath>
 		</dependency>
 	</dependencies>
 
