@@ -81,6 +81,7 @@ public abstract class ViewPictureActivity extends Activity {
 					Picture p =PicturePager.getInstance(currentActivity).getPictureAt(
 							pos);
 					b = Picture.getBitmapFromPicture(p);
+					setTitle(p.getTitle());
 				} catch (IOException e1) {
 					Log.e(TAG, e1.getMessage(), e1);
 				}

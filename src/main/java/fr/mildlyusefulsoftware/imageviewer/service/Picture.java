@@ -16,16 +16,27 @@ public class Picture {
 
 	private String imageURL;
 	
+	private String title;
+	
 	private int id;
 	
 
 	private static String TAG = "imageviewer";
 
-	public Picture(int id, String imageURL,byte[] thumbnail) {
+	public Picture(int id,String imageURL,byte[] thumbnail,String title) {
 		super();
 		this.thumbnail = thumbnail;
 		this.imageURL = imageURL;
 		this.id = id;
+		this.title=title;
+	}
+	
+	public Picture(int id,String imageURL,byte[] thumbnail) {
+		super();
+		this.thumbnail = thumbnail;
+		this.imageURL = imageURL;
+		this.id = id;
+		this.title=null;
 	}
 
 	public byte[] getThumbnail() {
@@ -104,5 +115,13 @@ public class Picture {
 		} finally {
 			in.close();
 		}
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 }

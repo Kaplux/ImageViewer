@@ -35,7 +35,7 @@ public class DatabaseHelper {
 	private DatabaseHelper(Context context) {
 		super();
 		internalDBHelper = new InternalDBHelper(context,
-				DB_NAME, null, 2);
+				DB_NAME, null, 3);
 		db = internalDBHelper.getWritableDatabase();
 	}
 
@@ -53,6 +53,7 @@ public class DatabaseHelper {
 			values.put(InternalDBHelper.COL_ID, p.getId());
 			values.put(InternalDBHelper.COL_IMAGE_URL, p.getImageURL());
 			values.put(InternalDBHelper.COL_THUMBNAIL, p.getThumbnail());
+			values.put(InternalDBHelper.COL_TITLE, p.getTitle());
 			db.insert(InternalDBHelper.TABLE_PICTURES, null, values);
 		}
 	}
@@ -62,13 +63,13 @@ public class DatabaseHelper {
 		Cursor c = db.query(InternalDBHelper.TABLE_PICTURES, new String[] {
 				InternalDBHelper.COL_ID,
 				InternalDBHelper.COL_IMAGE_URL,
-				InternalDBHelper.COL_THUMBNAIL },null,
+				InternalDBHelper.COL_THUMBNAIL,InternalDBHelper.COL_TITLE },null,
 				null, null, null, InternalDBHelper.COL_ID + " DESC");
 		if (c.getCount() != 0) {
 			c.moveToFirst();
 			while (!c.isAfterLast()) {
 				Picture picture = new Picture(c.getInt(0), c.getString(1),
-						c.getBlob(2));
+						c.getBlob(2),c.getString(0));
 				pictures.add(picture);
 				c.moveToNext();
 			}
@@ -87,10 +88,12 @@ public class DatabaseHelper {
 		public static final String COL_ID = "ID";
 		public static final String COL_IMAGE_URL = "URL";
 		public static final String COL_THUMBNAIL = "THUMBNAIL";
+		public static final String COL_TITLE = "TITLE";
 
 		private static final String CREATE_BDD = "CREATE TABLE "
 				+ TABLE_PICTURES + " (" + COL_ID
 				+ " INTEGER PRIMARY KEY, " + COL_IMAGE_URL
+				+ " TEXT NOT NULL, "+ COL_TITLE
 				+ " TEXT NOT NULL, " + COL_THUMBNAIL + " BLOB NOT NULL);";
 		
 		private Context context;
