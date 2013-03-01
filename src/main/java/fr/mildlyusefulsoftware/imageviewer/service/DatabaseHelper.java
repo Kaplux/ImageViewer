@@ -69,7 +69,7 @@ public class DatabaseHelper {
 			c.moveToFirst();
 			while (!c.isAfterLast()) {
 				Picture picture = new Picture(c.getInt(0), c.getString(1),
-						c.getBlob(2),c.getString(0));
+						c.getBlob(2),c.getString(3));
 				pictures.add(picture);
 				c.moveToNext();
 			}

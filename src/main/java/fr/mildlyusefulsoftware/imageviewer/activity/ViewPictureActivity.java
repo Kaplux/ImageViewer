@@ -1,6 +1,8 @@
 package fr.mildlyusefulsoftware.imageviewer.activity;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -22,6 +24,7 @@ import com.google.ads.AdSize;
 import com.google.ads.AdView;
 
 import fr.mildlyusefulsoftware.imageviewer.R;
+import fr.mildlyusefulsoftware.imageviewer.service.DatabaseHelper;
 import fr.mildlyusefulsoftware.imageviewer.service.Picture;
 
 public abstract class ViewPictureActivity extends Activity {
@@ -72,20 +75,14 @@ public abstract class ViewPictureActivity extends Activity {
 	private void loadImageFromPosition(final int pos) {
 		final Activity currentActivity = this;
 
-		new AsyncTask<Void, Void, Bitmap>() {
+		new AsyncTask<Void, Void, Picture>() {
 
 			@Override
-			protected Bitmap doInBackground(Void... params) {
-				Bitmap b=null;
-				try {
-					Picture p =PicturePager.getInstance(currentActivity).getPictureAt(
-							pos);
-					b = Picture.getBitmapFromPicture(p);
-					setTitle(p.getTitle());
-				} catch (IOException e1) {
-					Log.e(TAG, e1.getMessage(), e1);
-				}
-				return b;
+			protected Picture doInBackground(Void... params) {
+
+				Picture p = PicturePager.getInstance(currentActivity)
+						.getPictureAt(pos);
+				return p;
 			}
 
 			@Override
@@ -93,10 +90,17 @@ public abstract class ViewPictureActivity extends Activity {
 				super.onPreExecute();
 			}
 
-			protected void onPostExecute(Bitmap b) {
-				if (b!=null){
-					ImageView pictureView = (ImageView) findViewById(R.id.pictureView);
-					pictureView.setImageBitmap(b);
+			protected void onPostExecute(Picture p) {
+				if (p != null) {
+					Bitmap b;
+					try {
+						b = Picture.getBitmapFromPicture(p, currentActivity);
+						ImageView pictureView = (ImageView) findViewById(R.id.pictureView);
+						pictureView.setImageBitmap(b);
+						setTitle(p.getTitle());
+					} catch (IOException e) {
+						Log.e(TAG, e.getMessage(), e);
+					}
 				}
 			}
 
@@ -110,8 +114,12 @@ public abstract class ViewPictureActivity extends Activity {
 			// Create the adView
 			adView = new AdView(this, AdSize.BANNER, getAdMobId());
 			LinearLayout adLayout = new LinearLayout(this);
-			LinearLayout.LayoutParams adsParams =new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT, android.view.Gravity.BOTTOM|android.view.Gravity.CENTER_HORIZONTAL);
-			adLayout.addView(adView,adsParams);
+			LinearLayout.LayoutParams adsParams = new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.FILL_PARENT,
+					LinearLayout.LayoutParams.FILL_PARENT,
+					android.view.Gravity.BOTTOM
+							| android.view.Gravity.CENTER_HORIZONTAL);
+			adLayout.addView(adView, adsParams);
 			// Add the adView to it
 			quoteLayout.addView(adLayout);
 			AdRequest ar = new AdRequest();
@@ -141,4 +149,31 @@ public abstract class ViewPictureActivity extends Activity {
 		super.onSaveInstanceState(savedInstanceState);
 	}
 
+	protected void putNewPictures() {
+
+		List<Picture> pictures = new ArrayList<Picture>();
+		String[] dossiersImages;
+
+		try {
+			dossiersImages = getAssets().list("pictures");
+
+			int i = 10;
+			for (String dossierImages : dossiersImages) {
+				String nomImage = dossierImages.replaceAll("_", " ");
+				String[] images = getAssets().list("pictures/" + dossierImages);
+				for (String image : images) {
+					String cheminImage = "pictures/" + dossierImages + "/"
+							+ image;
+					Picture p = new Picture(i, cheminImage,
+							Picture.getPictureThumbnail(cheminImage,this), nomImage);
+					pictures.add(p);
+					i++;
+				}
+
+			}
+			DatabaseHelper.connect(this).putPictures(pictures);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

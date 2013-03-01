@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -63,13 +64,14 @@ public class Picture {
 		this.id = id;
 	}
 
-	public static Bitmap getBitmapFromPicture(Picture picture) throws IOException {
+	public static Bitmap getBitmapFromPicture(Picture picture,Context context) throws IOException {
 		Log.d(TAG, "display "+picture.getImageURL());
 		 //Decode image size
         BitmapFactory.Options o = new BitmapFactory.Options();
         o.inJustDecodeBounds = true;
-        BitmapFactory.decodeStream(new URL(picture.getImageURL()).openStream(),null,o);
-
+      //  BitmapFactory.decodeStream(new URL(picture.getImageURL()).openStream(),null,o);
+        BitmapFactory.decodeStream(context.getAssets().open(picture.imageURL),null,o);
+        
         //The new size we want to scale to
         final int REQUIRED_SIZE=1600;
 
@@ -92,7 +94,7 @@ public class Picture {
         o2.inInputShareable=true;              //Which kind of reference will be used to recover the Bitmap data after being clear, when it will be used in the future
         o2.inTempStorage=new byte[32 * 1024];
         try {
-        	return BitmapFactory.decodeStream(new URL(picture.getImageURL()).openStream(), null, o2);
+        	return BitmapFactory.decodeStream(context.getAssets().open(picture.imageURL), null, o2);
         }catch (Exception e){
         	return null;
         }
@@ -100,11 +102,12 @@ public class Picture {
 	}
 
 	
-	public static byte[] getPictureThumbnail(String url) throws IOException {
+	public static byte[] getPictureThumbnail(String url,Context context) throws IOException {
 		InputStream in = null;
 		try {
 			Log.d(TAG, "getPictureThumbnail " + url);
-			in = new BufferedInputStream(new URL(url).openStream());
+
+			in = new BufferedInputStream(context.getAssets().open(url));
 			final int THUMBNAIL_SIZE = 128;
 			Bitmap imageBitmap = BitmapFactory.decodeStream(in);
 			imageBitmap = Bitmap.createScaledBitmap(imageBitmap,
